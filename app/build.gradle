@@ -1,0 +1,137 @@
+plugins {
+  id 'com.android.application'
+  id 'org.jetbrains.kotlin.android'
+  id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.20'
+}
+
+android {
+  namespace 'com.kotlintesting.news'
+  compileSdk 33
+
+  defaultConfig {
+    applicationId "com.kotlintesting.news"
+    minSdk 26
+    targetSdk 33
+    versionCode applicationVersionCode
+    versionName "$applicationVersionNameFull"
+
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    vectorDrawables {
+      useSupportLibrary true
+    }
+    buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
+    buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+    buildConfigField "String", "VERSION_NAME_SHORT", "\"${applicationVersionNameShort}\""
+    buildConfigField "String", "VERSION_NAME_FULL", "\"${applicationVersionNameFull}\""
+
+    setProperty("archivesBaseName", applicationId + "-v" + applicationVersionNameFull)
+  }
+
+
+  buildTypes {
+    release {
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+      buildConfigField "Boolean", "ENABLE_NETWORK_LOGGING", "false"
+      buildConfigField "Boolean", "ENABLE_LOGGING", "false"
+
+      buildConfigField "String", "BASE_URL", "\"https://newsapi.org/\""
+      buildConfigField "String", "API_KEY", "\"${NEWS_API_KEY_RELEASE}\""
+    }
+
+    debug {
+
+      applicationIdSuffix '.debug'
+
+      buildConfigField "Boolean", "ENABLE_NETWORK_LOGGING", "false"
+      buildConfigField "Boolean", "ENABLE_LOGGING", "true"
+
+      buildConfigField "String", "BASE_URL", "\"https://newsapi.org/\""
+      buildConfigField "String", "API_KEY", "\"${NEWS_API_KEY_DEBUG}\""
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  kotlinOptions {
+    jvmTarget = '1.8'
+  }
+  buildFeatures {
+    compose true
+  }
+  composeOptions {
+    kotlinCompilerExtensionVersion compose_version
+  }
+  packagingOptions {
+    resources {
+      excludes += '/META-INF/{AL2.0,LGPL2.1}'
+    }
+  }
+  testOptions {
+    unitTests.all {
+      useJUnitPlatform()
+    }
+  }
+}
+
+dependencies {
+
+  implementation 'androidx.core:core-ktx:1.9.0'
+  implementation "androidx.compose.ui:ui:$compose_version"
+  implementation 'androidx.compose.material3:material3:1.1.0-alpha03'
+  implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+  implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+  implementation 'androidx.activity:activity-compose:1.6.1'
+
+  testImplementation 'junit:junit:4.13.2'
+  testImplementation 'io.kotest:kotest-runner-junit5-jvm'
+
+  androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+  androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+  androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+  debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+  debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+  debugImplementation "androidx.compose.animation:animation:$compose_version"
+
+  implementation 'io.coil-kt:coil-compose:2.2.2'
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+  implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+  implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+  implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+  implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+  implementation 'com.jakewharton.timber:timber:5.0.1'
+  implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+
+  implementation "com.google.accompanist:accompanist-navigation-animation:0.28.0"
+
+  implementation "io.insert-koin:koin-androidx-compose:3.2.1"
+
+  testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
+
+  testImplementation 'io.kotest:kotest-runner-junit5:5.5.4'
+  testImplementation 'io.kotest:kotest-assertions-core:5.5.4'
+  testImplementation 'io.kotest:kotest-property:5.5.4'
+
+  testImplementation 'io.mockk:mockk:1.13.2'
+  testImplementation 'app.cash.turbine:turbine:0.12.1'
+  testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
+
+  implementation platform('com.google.firebase:firebase-bom:31.2.0')
+  implementation 'com.google.firebase:firebase-analytics-ktx'
+  implementation 'com.google.firebase:firebase-crashlytics-ktx'
+
+}
+
+buildtimetracker {
+  reporters {
+    summary {
+      ordered true
+      threshold 50 //milliseconds
+      barstyle "unicode"
+      shortenTaskNames false
+    }
+  }
+}

@@ -1,0 +1,7 @@
+<resources>
+  <string name="app_name">News App</string>
+  <string name="read_more">Read more on %1$s</string>
+  <string name="search_query_hint">Put your search phrase here</string>
+  <string name="retry">Retry</string>
+  <string name="no_results">Query returned 0 results</string>
+</resources>

@@ -9,7 +9,7 @@ class InMemoryDatabase() {
     return data[id]
   }
 
-  fun update(elements: List<ArticleEntity>) {
+  suspend fun update(elements: List<ArticleEntity>) {
     data.clear()
     data.putAll(
       elements.map {

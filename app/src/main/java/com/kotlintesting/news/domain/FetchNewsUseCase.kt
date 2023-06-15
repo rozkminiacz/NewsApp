@@ -21,3 +21,8 @@ class FetchNewsUseCase(
       }
   }
 }
+
+// step 1 – fetch data from API
+// step 2 - map from DTO to ENTITY
+// step 3 - update in memory database
+// step 4 return list of entities

@@ -6,6 +6,7 @@ import io.kotest.core.spec.style.StringSpec
  * Created by jaroslawmichalik on 15/06/2023
  */
 class SomeSpec: StringSpec({
+
   "it should pass"{
 
   }
